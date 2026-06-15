@@ -58,6 +58,39 @@ The workflow:
 3. Verifies the `signing_type` output matches expectations
 4. Tests the `require_signed` input validation logic
 
+## Contributing
+
+> **Note:** Maintaining the tag fixtures in this repository needs a
+> dedicated test signing key, so maintainers configure their working
+> clones with the test identity (`test@tag-validate-action.local`). Git
+> does not track local config, so a fresh clone does not inherit this
+> setting. When a clone uses the test identity, it authors and commits
+> under the test key. The
+> [Developer Certificate of Origin](https://developercertificate.org/)
+> (DCO) check requires a `Signed-off-by` trailer that matches the commit
+> author, and `git commit -s` derives that trailer from the committer
+> identity, so a commit made under the test key but signed off as yourself
+> will fail DCO.
+
+When committing changes, override both the committer identity
+(`-c user.name` / `-c user.email`) and the author so they match the
+`Signed-off-by` trailer, which `git commit -s` derives from the committer
+identity. For example:
+
+```bash
+git -c user.name="Your Name" -c user.email="you@example.org" \
+  commit -s --author="Your Name <you@example.org>"
+```
+
+To correct an existing commit that has already failed DCO, amend it with
+the matching committer identity and author, then force-push the branch:
+
+```bash
+git -c user.name="Your Name" -c user.email="you@example.org" \
+  commit --amend --no-edit -s --author="Your Name <you@example.org>"
+git push --force-with-lease
+```
+
 ## Related Projects
 
 - [tag-validate-semantic-action](
